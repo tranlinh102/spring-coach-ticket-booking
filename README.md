@@ -1,0 +1,2 @@
+# spring-coach-ticket-booking
+🚌 Spring Coach Ticket Booking is an online coach ticket booking system built with Spring Boot and Spring Cloud using a Microservices architecture. It allows users to search for trips, book tickets, make payments, and manage their bookings. The system integrates Eureka, API Gateway, Config Server, MySQL, and Docker, with monitoring powered by Prometheus and Grafana for scalability, reliability, and high performance.

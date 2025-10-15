@@ -1,0 +1,117 @@
+app:
+  eureka-server:
+    localhost
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/spring-coach-ticket-booking-realm
+  cloud:
+    gateway:
+      default-filters:
+        - name: CircuitBreaker
+          args:
+            name: defaultCircuitBreaker
+            fallbackUri: forward:/fallback
+        - name: Retry
+          args:
+            retries: 1
+            statuses: SERVICE_UNAVAILABLE
+            methods: POST
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/v1/user/**, /aggregate/user/v3/api-docs
+              filters:
+                  - StripPrefix=2
+            - id: discovery-server
+              uri: http://eureka:password@${app.eureka-server}:8761
+#              uri: http://${app.eureka-server}:8761
+              predicates:
+                - Path=/eureka/web
+              filters:
+                - SetPath=/
+            - id: discovery-server-static
+#              uri: http://${app.eureka-server}:8761
+              uri: http://eureka:password@${app.eureka-server}:8761
+              predicates:
+                - Path=/eureka/**
+#          filters:
+#            - StripPrefix=2
+#        - id: visits-service
+#          uri: lb://visits-service
+#          predicates:
+#            - Path=/api/visit/**
+#          filters:
+#            - StripPrefix=2
+#        - id: customers-service
+#          uri: lb://customers-service
+#          predicates:
+#            - Path=/api/customer/**
+#          filters:
+#            - StripPrefix=2
+#        - id: genai-service
+#          uri: lb://genai-service
+#          predicates:
+#            - Path=/api/genai/**
+#          filters:
+#            - StripPrefix=2
+#            - CircuitBreaker=name=genaiCircuitBreaker,fallbackUri=/fallback
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@${app.eureka-server}:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    hostname: localhost
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+    swagger-ui:
+      enabled: true
+      config-url: /v3/api-docs/swagger-config
+  swagger-ui:
+    urls:
+      -   name: user-service
+          url: /aggregate/user/v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  observation:
+    key-values:
+      application: api-gateway
+  tracing:
+    sampling:
+      probability: 1.0
+
+loki:
+  url: http://localhost:3100/loki/api/v1/push
+
+server:
+  port: 9000
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://config-server:8888

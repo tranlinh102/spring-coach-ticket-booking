@@ -17,7 +17,7 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url("http://localhost:8181/api/v1"), new Server().url("http://localhost:8081")))
+                .servers(List.of(new Server().url("http://localhost:9000/api/v1"), new Server().url("http://localhost:8081")))
                 .info(new Info()
                         .title("User Service API")
                         .version("1.0.0")

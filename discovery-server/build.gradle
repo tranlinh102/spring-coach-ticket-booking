@@ -8,7 +8,7 @@ description = 'Discovery Server (Eureka) for Coach Ticket Booking System'
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')

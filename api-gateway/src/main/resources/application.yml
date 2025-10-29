@@ -4,6 +4,19 @@ app:
 spring:
   application:
     name: api-gateway
+#  web:
+#    cors:
+#      allowed-origins:
+#        - http://localhost:3000
+#        - http://localhost:4000
+#      allowed-methods:
+#        - GET
+#        - POST
+#        - PUT
+#        - DELETE
+#        - OPTIONS
+#      allowed-headers: "*"
+#      allow-credentials: true
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
   security:
@@ -13,16 +26,22 @@ spring:
           issuer-uri: http://localhost:8080/realms/spring-coach-ticket-booking-realm
   cloud:
     gateway:
-      default-filters:
-        - name: CircuitBreaker
-          args:
-            name: defaultCircuitBreaker
-            fallbackUri: forward:/fallback
-        - name: Retry
-          args:
-            retries: 1
-            statuses: SERVICE_UNAVAILABLE
-            methods: POST
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+        default-filters:
+          - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       server:
         webflux:
           routes:
@@ -32,39 +51,29 @@ spring:
                 - Path=/api/v1/user/**, /aggregate/user/v3/api-docs
               filters:
                   - StripPrefix=2
+            - id: coach-service
+              uri: lb://COACH-SERVICE
+              predicates:
+                - Path=/api/v1/coaches/**, /aggregate/open-api/coaches/v3/api-docs
+              filters:
+                  - StripPrefix=3
             - id: discovery-server
               uri: http://eureka:password@${app.eureka-server}:8761
-#              uri: http://${app.eureka-server}:8761
               predicates:
                 - Path=/eureka/web
               filters:
                 - SetPath=/
             - id: discovery-server-static
-#              uri: http://${app.eureka-server}:8761
               uri: http://eureka:password@${app.eureka-server}:8761
               predicates:
                 - Path=/eureka/**
-#          filters:
-#            - StripPrefix=2
-#        - id: visits-service
-#          uri: lb://visits-service
-#          predicates:
-#            - Path=/api/visit/**
-#          filters:
-#            - StripPrefix=2
-#        - id: customers-service
-#          uri: lb://customers-service
-#          predicates:
-#            - Path=/api/customer/**
-#          filters:
-#            - StripPrefix=2
-#        - id: genai-service
-#          uri: lb://genai-service
-#          predicates:
-#            - Path=/api/genai/**
-#          filters:
-#            - StripPrefix=2
-#            - CircuitBreaker=name=genaiCircuitBreaker,fallbackUri=/fallback
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
+
+
 eureka:
   client:
     serviceUrl:
@@ -78,13 +87,28 @@ springdoc:
   api-docs:
     enabled: true
     path: /v3/api-docs
-    swagger-ui:
-      enabled: true
-      config-url: /v3/api-docs/swagger-config
+
   swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
     urls:
-      -   name: user-service
-          url: /aggregate/user/v3/api-docs
+      - name: user-service
+        url: /aggregate/user/v3/api-docs
+      - name: coach-service
+        url: /aggregate/open-api/coaches/v3/api-docs
+      - name: api-gateway
+        url: /v3/api-docs
+
+    oauth2-redirect-url: http://localhost:9000/webjars/swagger-ui/oauth2-redirect.html
+    persistAuthorization: true
+    oauth:
+      clientId: spring-cloud-client
+      clientSecret: EB1G8mOa9WW8wLhgIZTlsn60DbZyfp51
+      use-basic-authentication-with-access-code-grant: true
+      realm: spring-coach-ticket-booking-realm
+      app-name: API Gateway Swagger
+      scopes: openid, profile, email
 
 management:
   endpoints:

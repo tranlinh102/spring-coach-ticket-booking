@@ -5,11 +5,23 @@ plugins {
 }
 
 dependencies {
+    implementation project(':common')
+
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 //    implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+    implementation 'com.github.loki4j:loki-logback-appender:2.0.0'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.15.4'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.5.4'
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave:3.5.1'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

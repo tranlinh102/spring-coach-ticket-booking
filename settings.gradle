@@ -1,7 +1,8 @@
 rootProject.name = 'spring-coach-ticket-booking'
 
-include 'api-gateway'
-include 'discovery-server'
+include 'common'
 include 'config-server'
+include 'discovery-server'
+include 'api-gateway'
 include 'user-service'
 include 'coach-service'

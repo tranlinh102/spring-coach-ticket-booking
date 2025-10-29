@@ -97,8 +97,6 @@ springdoc:
         url: /aggregate/user/v3/api-docs
       - name: coach-service
         url: /aggregate/open-api/coaches/v3/api-docs
-      - name: api-gateway
-        url: /v3/api-docs
 
     oauth2-redirect-url: http://localhost:9000/webjars/swagger-ui/oauth2-redirect.html
     persistAuthorization: true

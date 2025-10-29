@@ -1,13 +1,16 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot'
+    id 'java-library'
     id 'io.spring.dependency-management'
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+jar {
+    enabled = true
+}
 
-    implementation 'com.github.f4b6a3:uuid-creator:6.1.1'
+dependencies {
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation 'org.springframework:spring-context'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

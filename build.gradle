@@ -9,6 +9,7 @@ version = '0.0.1-SNAPSHOT'
 description = 'Root project for Coach Ticket Booking microservices'
 
 ext {
+    springBootVersion = '3.5.6'
     springCloudVersion = '2025.0.0'
 }
 
@@ -40,7 +41,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            // BOM Spring Cloud; module con được hưởng version từ đây
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
         dependencies {

@@ -7,7 +7,7 @@
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
-  "accessTokenLifespan": 300,
+  "accessTokenLifespan": 1680,
   "accessTokenLifespanForImplicitFlow": 900,
   "ssoSessionIdleTimeout": 1800,
   "ssoSessionMaxLifespan": 36000,
@@ -29,8 +29,8 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
-  "registrationEmailAsUsername": false,
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
   "rememberMe": true,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
@@ -50,6 +50,15 @@
   "roles": {
     "realm": [
       {
+        "id": "c80e7ea2-9465-426c-b62c-c596e091b587",
+        "name": "staff",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "f9f32491-6b1f-45e8-a6d4-3308d4c7446d",
+        "attributes": {}
+      },
+      {
         "id": "01c1b5b4-30b5-4f79-8267-e517b5f1161c",
         "name": "default-roles-spring-coach-ticket-booking-realm",
         "description": "${role_default-roles}",
@@ -66,6 +75,15 @@
             ]
           }
         },
+        "clientRole": false,
+        "containerId": "f9f32491-6b1f-45e8-a6d4-3308d4c7446d",
+        "attributes": {}
+      },
+      {
+        "id": "c9ef712f-a544-44df-8cb1-e455f1210ede",
+        "name": "customer",
+        "description": "",
+        "composite": false,
         "clientRole": false,
         "containerId": "f9f32491-6b1f-45e8-a6d4-3308d4c7446d",
         "attributes": {}
@@ -304,6 +322,16 @@
       ],
       "security-admin-console": [],
       "admin-cli": [],
+      "nextjs-web": [
+        {
+          "id": "7f1f21f5-bd56-42ef-b009-c3b8afacfd3b",
+          "name": "uma_protection",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "380208e7-e1fe-404f-b43d-f928bd935a10",
+          "attributes": {}
+        }
+      ],
       "account-console": [],
       "broker": [
         {
@@ -471,11 +499,32 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
-      "id": "f4af00c8-8254-462a-b07b-1f2a81dea03b",
+      "id": "6449f9ed-bc9e-4320-8e53-a1e3c199f578",
+      "username": "service-account-nextjs-web",
+      "emailVerified": false,
+      "enabled": true,
+      "createdTimestamp": 1760997067951,
+      "totp": false,
+      "serviceAccountClientId": "nextjs-web",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-spring-coach-ticket-booking-realm"
+      ],
+      "clientRoles": {
+        "nextjs-web": [
+          "uma_protection"
+        ]
+      },
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "d0ab6719-83a8-4755-bcb2-d5bc9786a71e",
       "username": "service-account-spring-cloud-client",
       "emailVerified": false,
       "enabled": true,
-      "createdTimestamp": 1760346288563,
+      "createdTimestamp": 1761567497713,
       "totp": false,
       "serviceAccountClientId": "spring-cloud-client",
       "disableableCredentialTypes": [],
@@ -483,11 +532,6 @@
       "realmRoles": [
         "default-roles-spring-coach-ticket-booking-realm"
       ],
-      "clientRoles": {
-        "spring-cloud-client": [
-          "uma_protection"
-        ]
-      },
       "notBefore": 0,
       "groups": []
     }
@@ -703,6 +747,129 @@
       ]
     },
     {
+      "id": "380208e7-e1fe-404f-b43d-f928bd935a10",
+      "clientId": "nextjs-web",
+      "name": "nextjs-web-client",
+      "description": "",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "http://localhost:4000/api/auth/callback/keycloak"
+      ],
+      "webOrigins": [
+        "http://localhost:4000/"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "realm_client": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1760997067",
+        "backchannel.logout.session.required": "true",
+        "standard.token.exchange.enabled": "false",
+        "post.logout.redirect.uris": "http://localhost:4000/*",
+        "frontchannel.logout.session.required": "true",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "use.jwks.url": "false",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "dpop.bound.access.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "6a0ce228-156f-45e7-840f-c2189854f9cb",
+          "name": "realm-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "service_account",
+        "acr",
+        "roles",
+        "profile",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "organization",
+        "microprofile-jwt"
+      ],
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": true,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "Default Resource",
+            "type": "urn:nextjs-web:resources:default",
+            "ownerManagedAccess": false,
+            "attributes": {},
+            "uris": [
+              "/*"
+            ]
+          }
+        ],
+        "policies": [
+          {
+            "name": "Default Policy",
+            "description": "A policy that grants access only for users within this realm",
+            "type": "js",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+            }
+          },
+          {
+            "name": "Default Permission",
+            "description": "A permission that applies to the default resource type",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "defaultResourceType": "urn:nextjs-web:resources:default",
+              "applyPolicies": "[\"Default Policy\"]"
+            }
+          }
+        ],
+        "scopes": [],
+        "decisionStrategy": "UNANIMOUS"
+      }
+    },
+    {
       "id": "3954e24b-cda0-44a1-a6b1-1f4d2ec5785e",
       "clientId": "realm-management",
       "name": "${client_realm-management}",
@@ -818,7 +985,7 @@
       "clientId": "spring-cloud-client",
       "name": "spring-coach-ticket-booking-realm",
       "description": "",
-      "rootUrl": "",
+      "rootUrl": "http://localhost:9000",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -827,19 +994,18 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/*"
+        "http://localhost:9000/webjars/swagger-ui/oauth2-redirect.html"
       ],
       "webOrigins": [
-        "/*"
+        "http://localhost:9000"
       ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
+      "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": true,
-      "authorizationServicesEnabled": true,
       "publicClient": false,
       "frontchannelLogout": true,
       "protocol": "openid-connect",
@@ -848,8 +1014,11 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1760346288",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "true",
+        "standard.token.exchange.enabled": "false",
+        "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "use.jwks.url": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "dpop.bound.access.tokens": "false"
       },
@@ -871,47 +1040,7 @@
         "offline_access",
         "organization",
         "microprofile-jwt"
-      ],
-      "authorizationSettings": {
-        "allowRemoteResourceManagement": true,
-        "policyEnforcementMode": "ENFORCING",
-        "resources": [
-          {
-            "name": "Default Resource",
-            "type": "urn:spring-cloud-client:resources:default",
-            "ownerManagedAccess": false,
-            "attributes": {},
-            "uris": [
-              "/*"
-            ]
-          }
-        ],
-        "policies": [
-          {
-            "name": "Default Policy",
-            "description": "A policy that grants access only for users within this realm",
-            "type": "js",
-            "logic": "POSITIVE",
-            "decisionStrategy": "AFFIRMATIVE",
-            "config": {
-              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
-            }
-          },
-          {
-            "name": "Default Permission",
-            "description": "A permission that applies to the default resource type",
-            "type": "resource",
-            "logic": "POSITIVE",
-            "decisionStrategy": "UNANIMOUS",
-            "config": {
-              "defaultResourceType": "urn:spring-cloud-client:resources:default",
-              "applyPolicies": "[\"Default Policy\"]"
-            }
-          }
-        ],
-        "scopes": [],
-        "decisionStrategy": "UNANIMOUS"
-      }
+      ]
     }
   ],
   "clientScopes": [
@@ -2619,7 +2748,10 @@
     "oauth2DevicePollingInterval": "5",
     "clientOfflineSessionMaxLifespan": "0",
     "clientSessionIdleTimeout": "0",
+    "actionTokenGeneratedByUserLifespan.verify-email": "",
+    "actionTokenGeneratedByUserLifespan.idp-verify-account-via-email": "",
     "clientOfflineSessionIdleTimeout": "0",
+    "actionTokenGeneratedByUserLifespan.execute-actions": "",
     "cibaInterval": "5",
     "realmReusableOtpCode": "false",
     "cibaExpiresIn": "120",
@@ -2628,7 +2760,9 @@
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
     "frontendUrl": "",
-    "acr.loa.map": "{}"
+    "acr.loa.map": "{}",
+    "shortVerificationUri": "",
+    "actionTokenGeneratedByUserLifespan.reset-credentials": ""
   },
   "keycloakVersion": "26.4.0",
   "userManagedAccessAllowed": false,

@@ -758,7 +758,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "quwYyNfAzBwu0QRNpJ85xq17UkYkBxh3",
       "redirectUris": [
         "http://localhost:4000/api/auth/callback/keycloak"
       ],
@@ -845,12 +845,11 @@
         "policies": [
           {
             "name": "Default Policy",
-            "description": "A policy that grants access only for users within this realm",
-            "type": "js",
+            "type": "role",
             "logic": "POSITIVE",
             "decisionStrategy": "AFFIRMATIVE",
             "config": {
-              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+              "roles": "[{\"id\":\"realm-role-id\",\"required\":false}]"
             }
           },
           {
@@ -992,7 +991,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "EB1G8mOa9WW8wLhgIZTlsn60DbZyfp51",
       "redirectUris": [
         "http://localhost:9000/webjars/swagger-ui/oauth2-redirect.html"
       ],

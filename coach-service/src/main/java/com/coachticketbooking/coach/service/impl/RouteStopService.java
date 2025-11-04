@@ -1,12 +1,12 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.routestop.RouteStopRequestDto;
-import com.coachticketbooking.coach.model.dto.routestop.RouteStopResponseDto;
+import com.coachticketbooking.coach.dto.routestop.RouteStopRequestDto;
+import com.coachticketbooking.coach.dto.routestop.RouteStopResponseDto;
 import com.coachticketbooking.coach.model.entity.Route;
 import com.coachticketbooking.coach.model.entity.RouteStop;
 import com.coachticketbooking.coach.model.entity.RouteStopId;
 import com.coachticketbooking.coach.model.entity.Stop;
-import com.coachticketbooking.coach.model.mapper.RouteStopMapper;
+import com.coachticketbooking.coach.mapper.RouteStopMapper;
 import com.coachticketbooking.coach.repository.RouteStopRepository;
 import com.coachticketbooking.coach.service.IRouteService;
 import com.coachticketbooking.coach.service.IRouteStopService;

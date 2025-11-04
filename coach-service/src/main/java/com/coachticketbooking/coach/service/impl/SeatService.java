@@ -1,10 +1,10 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.seat.SeatRequestDto;
-import com.coachticketbooking.coach.model.dto.seat.SeatResponseDto;
+import com.coachticketbooking.coach.dto.seat.SeatRequestDto;
+import com.coachticketbooking.coach.dto.seat.SeatResponseDto;
 import com.coachticketbooking.coach.model.entity.Seat;
 import com.coachticketbooking.coach.model.entity.Vehicle;
-import com.coachticketbooking.coach.model.mapper.SeatMapper;
+import com.coachticketbooking.coach.mapper.SeatMapper;
 import com.coachticketbooking.coach.repository.SeatRepository;
 import com.coachticketbooking.coach.service.ISeatService;
 import com.coachticketbooking.coach.service.IVehicleService;

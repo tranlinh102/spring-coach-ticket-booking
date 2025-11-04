@@ -1,15 +1,14 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.ward.WardRequestDto;
-import com.coachticketbooking.coach.model.dto.ward.WardResponseDto;
+import com.coachticketbooking.coach.dto.ward.WardRequestDto;
+import com.coachticketbooking.coach.dto.ward.WardResponseDto;
 import com.coachticketbooking.coach.model.entity.Province;
 import com.coachticketbooking.coach.model.entity.Ward;
-import com.coachticketbooking.coach.model.mapper.WardMapper;
+import com.coachticketbooking.coach.mapper.WardMapper;
 import com.coachticketbooking.coach.repository.WardRepository;
 import com.coachticketbooking.coach.service.IProvinceService;
 import com.coachticketbooking.coach.service.IWardService;
 import com.coachticketbooking.coach.service.base.BaseService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

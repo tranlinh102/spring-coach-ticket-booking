@@ -1,14 +1,17 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.vehicle.VehicleRequestDto;
-import com.coachticketbooking.coach.model.dto.vehicle.VehicleResponseDto;
+import com.coachticketbooking.coach.dto.vehicle.VehicleRequestDto;
+import com.coachticketbooking.coach.dto.vehicle.VehicleResponseDto;
 import com.coachticketbooking.coach.service.IVehicleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,8 +22,28 @@ public class VehicleController {
     private final IVehicleService vehicleService;
 
     @GetMapping
-    public ResponseEntity<List<VehicleResponseDto>> getAllVehicles() {
-        return ResponseEntity.ok(vehicleService.findAllDto());
+    public ResponseEntity<Page<VehicleResponseDto>> getAllVehicles(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "true") boolean active,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt,desc") String sort
+    ) {
+        // build Sort from a single string like "field,asc" or "field,desc"
+        String[] sortParts = sort.split(",");
+        String sortBy = sortParts[0];
+        Sort.Direction direction = Sort.Direction.ASC;
+        if (sortParts.length > 1) {
+            try {
+                direction = Sort.Direction.fromString(sortParts[1]);
+            } catch (IllegalArgumentException ignored) {
+                // fallback to ASC if invalid
+                direction = Sort.Direction.ASC;
+            }
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        Page<VehicleResponseDto> result = vehicleService.findAllDto(keyword, active, pageable);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
@@ -40,7 +63,7 @@ public class VehicleController {
             @PathVariable UUID id,
             @RequestBody VehicleRequestDto requestDto) {
         VehicleResponseDto updated = vehicleService.updateVehicle(id, requestDto);
-        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
@@ -50,5 +73,11 @@ public class VehicleController {
         }
         vehicleService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/change-active")
+    public ResponseEntity<VehicleResponseDto> changeActive(@PathVariable UUID id) {
+        VehicleResponseDto updated = vehicleService.changeActive(id);
+        return ResponseEntity.ok(updated);
     }
 }

@@ -1,11 +1,11 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.stop.StopRequestDto;
-import com.coachticketbooking.coach.model.dto.stop.StopResponseDto;
+import com.coachticketbooking.coach.dto.stop.StopRequestDto;
+import com.coachticketbooking.coach.dto.stop.StopResponseDto;
 import com.coachticketbooking.coach.model.entity.Province;
 import com.coachticketbooking.coach.model.entity.Stop;
 import com.coachticketbooking.coach.model.entity.Ward;
-import com.coachticketbooking.coach.model.mapper.StopMapper;
+import com.coachticketbooking.coach.mapper.StopMapper;
 import com.coachticketbooking.coach.repository.StopRepository;
 import com.coachticketbooking.coach.service.IProvinceService;
 import com.coachticketbooking.coach.service.IStopService;

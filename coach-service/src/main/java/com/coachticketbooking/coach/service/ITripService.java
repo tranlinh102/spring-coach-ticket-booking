@@ -1,8 +1,8 @@
 package com.coachticketbooking.coach.service;
 
-import com.coachticketbooking.coach.model.dto.trip.TripRequestDto;
-import com.coachticketbooking.coach.model.dto.trip.TripResponseDto;
-import com.coachticketbooking.coach.model.dto.trip.TripSearchDto;
+import com.coachticketbooking.coach.dto.trip.TripRequestDto;
+import com.coachticketbooking.coach.dto.trip.TripResponseDto;
+import com.coachticketbooking.coach.dto.trip.TripSearchDto;
 import com.coachticketbooking.coach.model.entity.Trip;
 import com.coachticketbooking.coach.service.base.IBaseService;
 

@@ -1,6 +1,6 @@
 package com.coachticketbooking.coach.repository;
 
-import com.coachticketbooking.coach.model.dto.trip.TripSearchDto;
+import com.coachticketbooking.coach.dto.trip.TripSearchDto;
 import com.coachticketbooking.coach.model.entity.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +16,10 @@ public interface TripRepository extends JpaRepository<Trip, UUID> {
                 SELECT
                     t.id AS trip_id,
                     t.scheduled_departure_time,
+                    t.scheduled_arrival_time,
                     t.route_id,
+                    t.vehicle_id,
+                    t.price,
                     v.vehicle_type,
                     v.active_seat_count
                 FROM trips t
@@ -27,26 +30,31 @@ public interface TripRepository extends JpaRepository<Trip, UUID> {
                 SELECT
                     dt.trip_id,
                     dt.scheduled_departure_time,
+                    dt.scheduled_arrival_time,
                     dt.route_id,
+                    dt.vehicle_id,
+                    dt.price,
                     dt.vehicle_type,
                     dt.active_seat_count,
-                    rs_start.stop_order AS start_order,
-                    rs_end.stop_order AS end_order,
-                    s_start.address AS start_address,
-                    s_start.province_id AS start_province_id,
-                    s_end.address AS end_address,
-                    s_end.province_id AS end_province_id
+                    s_start.address AS start_stop_address,
+                    s_start.name AS start_stop_name,
+                    s_end.address AS end_stop_address,
+                    s_end.name AS end_stop_name,
+                    rs_pickup.stop_order AS pickup_order,
+                    rs_dropoff.stop_order AS dropoff_order
                 FROM daily_trips dt
                 JOIN routes r ON r.id = dt.route_id
-                JOIN route_stops rs_start ON rs_start.route_id = r.id
-                JOIN route_stops rs_end ON rs_end.route_id = r.id
-                JOIN stops s_start ON rs_start.stop_id = s_start.id
-                JOIN stops s_end ON rs_end.stop_id = s_end.id
-                WHERE s_start.province_id = :startProvinceId
-                  AND s_end.province_id = :endProvinceId
-                  AND rs_start.stop_order < rs_end.stop_order
-                  AND rs_start.allow_pickup = 1
-                  AND rs_end.allow_dropoff = 1
+                JOIN stops s_start ON r.start_stop_id = s_start.id
+                JOIN stops s_end ON r.end_stop_id = s_end.id
+                JOIN route_stops rs_pickup ON rs_pickup.route_id = r.id
+                JOIN route_stops rs_dropoff ON rs_dropoff.route_id = r.id
+                JOIN stops s_pickup ON rs_pickup.stop_id = s_pickup.id
+                JOIN stops s_dropoff ON rs_dropoff.stop_id = s_dropoff.id
+                WHERE s_pickup.province_id = :startProvinceId
+                  AND s_dropoff.province_id = :endProvinceId
+                  AND rs_pickup.stop_order < rs_dropoff.stop_order
+                  AND rs_pickup.allow_pickup = 1
+                  AND rs_dropoff.allow_dropoff = 1
             ),
             booking_filter AS (
                 SELECT
@@ -54,21 +62,26 @@ public interface TripRepository extends JpaRepository<Trip, UUID> {
                     SUM(b.seat_count) AS seat_reserved_count
                 FROM valid_trip_routes vtr
                 JOIN bookings b ON b.trip_id = vtr.trip_id
-                JOIN route_stops rs_pickup ON b.pickup_stop_id = rs_pickup.stop_id AND vtr.route_id = rs_pickup.route_id\s
-                JOIN route_stops rs_dropoff ON b.dropoff_stop_id = rs_dropoff.stop_id AND vtr.route_id = rs_dropoff.route_id\s
+                JOIN route_stops rs_pickup ON b.pickup_stop_id = rs_pickup.stop_id AND vtr.route_id = rs_pickup.route_id
+                JOIN route_stops rs_dropoff ON b.dropoff_stop_id = rs_dropoff.stop_id AND vtr.route_id = rs_dropoff.route_id
                 WHERE
                     (
-                        (rs_pickup.stop_order < vtr.start_order AND rs_dropoff.stop_order <= vtr.start_order)
+                        (rs_pickup.stop_order < vtr.pickup_order AND rs_dropoff.stop_order <= vtr.pickup_order)
                         OR
-                        (rs_pickup.stop_order >= vtr.end_order AND rs_dropoff.stop_order > vtr.end_order)
+                        (rs_pickup.stop_order >= vtr.dropoff_order AND rs_dropoff.stop_order > vtr.dropoff_order)
                     )
                 GROUP BY vtr.trip_id
             )
             SELECT
                 BIN_TO_UUID(vtr.trip_id) AS trip_id,
                 vtr.scheduled_departure_time,
-                vtr.start_address,
-                vtr.end_address,
+                vtr.scheduled_arrival_time,
+                BIN_TO_UUID(vtr.vehicle_id) AS vehicle_id,
+                vtr.price,
+                vtr.start_stop_address,
+                vtr.start_stop_name,
+                vtr.end_stop_address,
+                vtr.end_stop_name,
                 vtr.vehicle_type,
                 vtr.active_seat_count,
                 (vtr.active_seat_count - COALESCE(bf.seat_reserved_count, 0)) AS available_seats

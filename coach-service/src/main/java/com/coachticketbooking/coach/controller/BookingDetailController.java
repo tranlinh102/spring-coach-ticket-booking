@@ -1,7 +1,7 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailRequestDto;
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailResponseDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailRequestDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailResponseDto;
 import com.coachticketbooking.coach.service.IBookingDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

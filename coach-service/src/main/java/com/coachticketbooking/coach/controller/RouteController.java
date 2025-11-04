@@ -1,7 +1,7 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.route.RouteRequestDto;
-import com.coachticketbooking.coach.model.dto.route.RouteResponseDto;
+import com.coachticketbooking.coach.dto.route.RouteRequestDto;
+import com.coachticketbooking.coach.dto.route.RouteResponseDto;
 import com.coachticketbooking.coach.service.IRouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

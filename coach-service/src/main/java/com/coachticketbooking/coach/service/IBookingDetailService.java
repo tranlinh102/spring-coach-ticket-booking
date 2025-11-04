@@ -1,7 +1,7 @@
 package com.coachticketbooking.coach.service;
 
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailRequestDto;
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailResponseDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailRequestDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailResponseDto;
 import com.coachticketbooking.coach.model.entity.BookingDetail;
 import com.coachticketbooking.coach.service.base.IBaseService;
 

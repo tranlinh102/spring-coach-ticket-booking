@@ -1,13 +1,12 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.province.ProvinceRequestDto;
-import com.coachticketbooking.coach.model.dto.province.ProvinceResponseDto;
+import com.coachticketbooking.coach.dto.province.ProvinceRequestDto;
+import com.coachticketbooking.coach.dto.province.ProvinceResponseDto;
 import com.coachticketbooking.coach.model.entity.Province;
-import com.coachticketbooking.coach.model.mapper.ProvinceMapper;
+import com.coachticketbooking.coach.mapper.ProvinceMapper;
 import com.coachticketbooking.coach.repository.ProvinceRepository;
 import com.coachticketbooking.coach.service.IProvinceService;
 import com.coachticketbooking.coach.service.base.BaseService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

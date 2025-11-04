@@ -1,7 +1,7 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.ward.WardRequestDto;
-import com.coachticketbooking.coach.model.dto.ward.WardResponseDto;
+import com.coachticketbooking.coach.dto.ward.WardRequestDto;
+import com.coachticketbooking.coach.dto.ward.WardResponseDto;
 import com.coachticketbooking.coach.service.IWardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

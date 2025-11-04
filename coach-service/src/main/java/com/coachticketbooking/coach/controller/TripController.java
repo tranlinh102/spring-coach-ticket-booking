@@ -1,8 +1,8 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.trip.TripRequestDto;
-import com.coachticketbooking.coach.model.dto.trip.TripResponseDto;
-import com.coachticketbooking.coach.model.dto.trip.TripSearchDto;
+import com.coachticketbooking.coach.dto.trip.TripRequestDto;
+import com.coachticketbooking.coach.dto.trip.TripResponseDto;
+import com.coachticketbooking.coach.dto.trip.TripSearchDto;
 import com.coachticketbooking.coach.service.ITripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

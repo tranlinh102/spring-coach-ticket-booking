@@ -1,11 +1,11 @@
 package com.coachticketbooking.coach.service.impl;
 
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailRequestDto;
-import com.coachticketbooking.coach.model.dto.bookingdetail.BookingDetailResponseDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailRequestDto;
+import com.coachticketbooking.coach.dto.bookingdetail.BookingDetailResponseDto;
 import com.coachticketbooking.coach.model.entity.Booking;
 import com.coachticketbooking.coach.model.entity.BookingDetail;
 import com.coachticketbooking.coach.model.entity.Seat;
-import com.coachticketbooking.coach.model.mapper.BookingDetailMapper;
+import com.coachticketbooking.coach.mapper.BookingDetailMapper;
 import com.coachticketbooking.coach.repository.BookingDetailRepository;
 import com.coachticketbooking.coach.service.IBookingDetailService;
 import com.coachticketbooking.coach.service.IBookingService;

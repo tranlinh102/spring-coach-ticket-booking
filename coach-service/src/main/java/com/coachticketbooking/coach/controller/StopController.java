@@ -1,7 +1,7 @@
 package com.coachticketbooking.coach.controller;
 
-import com.coachticketbooking.coach.model.dto.stop.StopRequestDto;
-import com.coachticketbooking.coach.model.dto.stop.StopResponseDto;
+import com.coachticketbooking.coach.dto.stop.StopRequestDto;
+import com.coachticketbooking.coach.dto.stop.StopResponseDto;
 import com.coachticketbooking.coach.service.IStopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

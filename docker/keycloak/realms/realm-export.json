@@ -534,6 +534,19 @@
       ],
       "notBefore": 0,
       "groups": []
+    },
+    {
+      "id": "e2c4b891-32a0-4f91-b24d-0f4b8f0372a1",
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@gmail.com",
+      "emailVerified": true,
+      "firstName": "System",
+      "lastName": "Admin",
+      "credentials": [
+        { "type": "password", "value": "1", "temporary": false }
+      ],
+      "realmRoles": ["default-roles-spring-coach-ticket-booking-realm", "staff"]
     }
   ],
   "scopeMappings": [

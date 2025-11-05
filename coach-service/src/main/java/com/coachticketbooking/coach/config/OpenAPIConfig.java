@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
 import java.util.List;
 
 @OpenAPIDefinition
@@ -24,7 +25,7 @@ public class OpenAPIConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI()
+        OpenAPI openAPI = new OpenAPI()
                 .servers(List.of(new Server().url("http://localhost:9000/api/v1/coaches"), new Server().url("http://localhost:" + serverPort)))
                 .info(new Info()
                         .title("Coach Service API")
@@ -41,5 +42,17 @@ public class OpenAPIConfig {
                                                 .authorizationUrl("http://localhost:8080/realms/spring-coach-ticket-booking-realm/protocol/openid-connect/auth")
                                                 .tokenUrl("http://localhost:8080/realms/spring-coach-ticket-booking-realm/protocol/openid-connect/token")
                                         ))));
+
+        // Clear security requirements for any path that matches /public/** so those operations are shown as public in the OpenAPI UI.
+        if (openAPI.getPaths() != null) {
+            openAPI.getPaths().forEach((path, pathItem) -> {
+                if (path != null && (path.contains("/public/") || path.endsWith("/public"))) {
+                    pathItem.readOperations().forEach(op -> op.setSecurity(Collections.emptyList()));
+                }
+            });
+        }
+
+        return openAPI;
     }
+
 }

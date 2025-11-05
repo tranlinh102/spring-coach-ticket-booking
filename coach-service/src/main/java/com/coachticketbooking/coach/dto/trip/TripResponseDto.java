@@ -1,5 +1,7 @@
 package com.coachticketbooking.coach.dto.trip;
 
+import com.coachticketbooking.coach.dto.route.RouteResponseDto;
+import com.coachticketbooking.coach.dto.vehicle.VehicleResponseDto;
 import com.coachticketbooking.coach.model.enums.TripStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,8 @@ public class TripResponseDto {
     private String note;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // New: embed full vehicle and route details for public APIs
+    private VehicleResponseDto vehicle;
+    private RouteResponseDto route;
 }
-
-
